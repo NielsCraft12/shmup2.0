@@ -17,9 +17,27 @@ public class BasicEnemy : MonoBehaviour
         leftSideOfScreenInWorld = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
     }
 
+    protected virtual void Update()
+    {
+        if (lives <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 
     protected void DropLoot()
     {
 
+    }
+
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "PlayerBullet")
+        {
+            Destroy(collision.gameObject);
+            lives--;
+
+        }
     }
 }

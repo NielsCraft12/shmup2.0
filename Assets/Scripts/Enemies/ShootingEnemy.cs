@@ -27,6 +27,12 @@ public class ShootingEnemy : BasicEnemy
 
     private void FixedUpdate()
     {
+
+            GameObject _player = GameObject.FindWithTag("Player");
+            Vector3 _relativePos = _player.transform.position;
+            Quaternion _lookAt = Quaternion.LookRotation(Vector3.forward, _relativePos - _relativePos);
+            transform.rotation = _lookAt;
+
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(randomX, randomY), .1f);
     }
 
@@ -34,11 +40,6 @@ public class ShootingEnemy : BasicEnemy
     {
         while (true)
         {
-
-            GameObject _player = GameObject.FindWithTag("Player");
-            Vector3 _relativePos = _player.transform.position;
-            Quaternion _lookAt = Quaternion.LookRotation(Vector3.forward, _relativePos - _relativePos);
-            transform.rotation = _lookAt;
 
 
 
