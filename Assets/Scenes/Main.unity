@@ -30921,7 +30921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  moveSpeed: 3
+  moveSpeed: 5
   Bullet: {fileID: 159954003991753635, guid: 3c1970603cce8c44b8160ae41e4e251b, type: 3}
   health: 3
   liveImages:
@@ -31211,7 +31211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1553570596
 MonoBehaviour:
   m_ObjectHideFlags: 0
