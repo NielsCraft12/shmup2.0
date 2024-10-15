@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abcd92a5b201c2489a119a4d85065af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerpos: {x: 0, y: 0}
   bulletSpeed: 7
 --- !u!50 &-720552130365634886
 Rigidbody2D:
@@ -115,7 +116,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

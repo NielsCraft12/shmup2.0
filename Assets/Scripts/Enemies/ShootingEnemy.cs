@@ -25,7 +25,6 @@ public class ShootingEnemy : BasicEnemy
         randomX = Random.Range(-11f, rightSideOfScreenInWorld);
         randomY = Random.Range(0f, 6f);
         goToPos = new Vector2(randomX, randomY);
-        state = 2 * state;
     }
 
     private void FixedUpdate()
@@ -54,7 +53,9 @@ public class ShootingEnemy : BasicEnemy
 
 
 
-            Instantiate(EnemyBullet,transform.position,Quaternion.identity);
+         GameObject _bullet = Instantiate(EnemyBullet,transform.position,Quaternion.identity);
+         EnemyBullet enemyBullet = _bullet.GetComponent<EnemyBullet>();
+            enemyBullet.bulletState = state;
         yield return new WaitForSeconds(shootSpeed);
         }
     }
