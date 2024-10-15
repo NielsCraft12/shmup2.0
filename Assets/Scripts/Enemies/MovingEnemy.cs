@@ -4,77 +4,91 @@ using UnityEngine;
 
 public class MovingEnemy : BasicEnemy
 {
-    [SerializeField]
-    private int state;
+    public float moveSpeed;   // Algemene bewegingssnelheid van de vijand
+    private Vector3 targetPosition;
+    private bool movingToStartPosition = true;
+    private float currentWaveSpeedMultiplier;
+    public int currentWave = 1; // Dit moet in je game manager worden ingesteld
 
-    int target = 0;
-    [SerializeField]
-    Transform player;
+    private Vector3 direction;
+    private int movementType;
 
-    [SerializeField]
-    float enemyHightStart;
-    [SerializeField]
-    float enemyHight;
-
-
-
-    // Start is called before the first frame update
    protected override void Start()
     {
-        base.Start();
-        state = Random.Range(1, 3);
-        enemyHightStart = transform.position.x;
+        // Bepaal de willekeurige richting
+        movementType = Random.Range(1, 3); // 1 voor links-rechts, 2 voor links-rechts + naar beneden
+        SetInitialPosition();
+        SetMovementDirection();
+
+        // Bereken de snelheid op basis van de golf
+        currentWaveSpeedMultiplier = 1 + (currentWave / 4f);
+        moveSpeed *= currentWaveSpeedMultiplier;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    protected override void Update()
     {
-
-
-        if(state == 1)
+        if (movingToStartPosition)
         {
-            enemyHight = -1;
+            MoveToStartPosition();
         }
-        LeftRight();
-
+        else
+        {
+            MoveInDirection();
+        }
     }
 
-    private void LeftRight()
-    {   
-        Debug.Log(target);
+    // Stel de initiële positie in
+    private void SetInitialPosition()
+    {
+        float xPos = Random.Range(-8f, 8f);  // Stel de breedte van het speelveld in
+        float yPos = Random.Range(3f, 5f);   // Stel de hoogte in waar de vijand start
 
-        if(transform.position.x <= leftSideOfScreenInWorld + 3)
-        {
-            target = 1;
-            if(enemyHight < 5 && state == 2)
-            {
-                enemyHight++;
-            }
-        }
-        if (transform.position.x >= rightSideOfScreenInWorld - 3)
-        {
-            target = 0;
-            if (enemyHight < 5 && state == 2)
-            {
-                enemyHight++;
-            }
-        }
-
-        if (target == 1)
-        {
-            
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(rightSideOfScreenInWorld - 1, enemyHightStart - enemyHight), .1f);
-
-        }  if (target == 0)
-        {
-            //transform.rotation = Quaternion.Euler(0, 0, -44);
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(leftSideOfScreenInWorld + 1, enemyHightStart - enemyHight), .1f);
-        }   
-
-        Debug.Log(rightSideOfScreenInWorld);
+        targetPosition = new Vector3(xPos, yPos, 0f);
+        transform.position = new Vector3(xPos, 6f, 0f); // Startpositie boven het scherm
     }
 
+    // Beweeg de vijand naar zijn startpositie
+    private void MoveToStartPosition()
+    {
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
 
-    
+        // Als de vijand dichtbij genoeg is, start de bewegingsroutine
+        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        {
+            movingToStartPosition = false;
+        }
+    }
 
+    // Stel de bewegingsrichting in
+    private void SetMovementDirection()
+    {
+        if (movementType == 1)
+        {
+            // Beweeg horizontaal van links naar rechts
+            direction = Random.value > 0.5f ? Vector3.right : Vector3.left;
+        }
+        else if (movementType == 2)
+        {
+            // Beweeg horizontaal + naar beneden
+            direction = new Vector3(Random.value > 0.5f ? 1 : -1, -1, 0f).normalized;
+        }
+    }
+
+    // Beweeg in de bepaalde richting
+    private void MoveInDirection()
+    {
+        transform.Translate(direction * moveSpeed * Time.deltaTime);
+
+        // Houd de vijand binnen het scherm
+        if (transform.position.x > 8f || transform.position.x < -8f)
+        {
+            direction.x = -direction.x;  // Draai de horizontale beweging om
+        }
+
+/*        // Optioneel: vernietig de vijand als hij de onderkant van het scherm bereikt
+        if (transform.position.y < -6f)
+        {
+            Destroy(gameObject);
+        }*/
+    }
 }
