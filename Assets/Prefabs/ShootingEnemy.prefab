@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 749221461570081644}
   m_Layer: 0
   m_Name: ShootingEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lives: 3
+  state: 0
   EnemyBullet: {fileID: 6789533049825782497, guid: ebac3ffe0f884cb488b383da4f1acc71, type: 3}
   shootSpeed: 1
 --- !u!61 &749221461570081644
