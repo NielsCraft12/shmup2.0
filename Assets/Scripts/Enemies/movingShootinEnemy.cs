@@ -64,7 +64,6 @@ public class movingShootinEnemy : BasicEnemy
 
     private void LeftRight()
     {
-        Debug.Log(target);
 
         if (transform.position.x <= leftSideOfScreenInWorld + 3)
         {
@@ -87,7 +86,6 @@ public class movingShootinEnemy : BasicEnemy
             transform.position = Vector2.MoveTowards(transform.position, new Vector2(leftSideOfScreenInWorld + 1, transform.position.y), .1f);
         }
 
-        Debug.Log(rightSideOfScreenInWorld);
     }
 
     IEnumerator Shoot()

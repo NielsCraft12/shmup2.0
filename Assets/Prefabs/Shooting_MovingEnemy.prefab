@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lives: 3
+  explosion: {fileID: 4047336753278375940, guid: 08b4249cd27d4e142b46242c1273056f, type: 3}
   enemyHightStart: 0
   enemyHight: 0
   shootSpeed: 2

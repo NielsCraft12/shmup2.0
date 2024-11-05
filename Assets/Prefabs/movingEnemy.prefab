@@ -99,8 +99,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lives: 3
-  moveSpeed: 5
-  currentWave: 1
+  explosion: {fileID: 4047336753278375940, guid: 08b4249cd27d4e142b46242c1273056f, type: 3}
+  state: 0
+  player: {fileID: 0}
+  enemyHightStart: 0
+  enemyHight: 0
 --- !u!61 &8394969437897046024
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lives: 3
+  explosion: {fileID: 4047336753278375940, guid: 08b4249cd27d4e142b46242c1273056f, type: 3}
   state: 0
   EnemyBullet: {fileID: 6789533049825782497, guid: ebac3ffe0f884cb488b383da4f1acc71, type: 3}
   shootSpeed: 1

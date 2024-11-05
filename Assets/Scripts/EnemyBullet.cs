@@ -16,7 +16,7 @@ public class EnemyBullet : MonoBehaviour
 
     Rigidbody2D rb;
 
-    bool hasReachedPlayer = false; // Track if bullet reached the player position
+   // bool hasReachedPlayer = false; // Track if bullet reached the player position
 
     Vector2 moveDirection;
 

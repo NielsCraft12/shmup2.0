@@ -1,94 +1,84 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingEnemy : BasicEnemy
 {
-    public float moveSpeed;   // Algemene bewegingssnelheid van de vijand
-    private Vector3 targetPosition;
-    private bool movingToStartPosition = true;
-    private float currentWaveSpeedMultiplier;
-    public int currentWave = 1; // Dit moet in je game manager worden ingesteld
+    [SerializeField]
+    private int state;
 
-    private Vector3 direction;
-    private int movementType;
+    int target = 0;
+    [SerializeField]
+    Transform player;
 
-   protected override void Start()
+    [SerializeField]
+    float enemyHightStart;
+    [SerializeField]
+    float enemyHight;
+
+
+
+    // Start is called before the first frame update
+    protected override void Start()
     {
-        // Bepaal de willekeurige richting
-        movementType = Random.Range(1, 3); // 1 voor links-rechts, 2 voor links-rechts + naar beneden
-        SetInitialPosition();
-        SetMovementDirection();
-
-        // Bereken de snelheid op basis van de golf
-        currentWaveSpeedMultiplier = 1 + (currentWave / 4f);
-        moveSpeed *= currentWaveSpeedMultiplier;
+        base.Start();
+        state = Random.Range(1, 3);
+        enemyHightStart = transform.position.x;
     }
 
-    protected override void Update()
+    // Update is called once per frame
+    void FixedUpdate()
     {
-        if (movingToStartPosition)
+
+
+        if (state == 1)
         {
-            MoveToStartPosition();
+            enemyHight = -1;
         }
-        else
+        LeftRight();
+
+        if (transform.position.y <= -7)
         {
-            MoveInDirection();
+            transform.position = new Vector3(transform.position.x, 10.32f, 0);
+            enemyHight = 0;
         }
+
     }
 
-    // Stel de initiële positie in
-    private void SetInitialPosition()
+    private void LeftRight()
     {
-        float xPos = Random.Range(-8f, 8f);  // Stel de breedte van het speelveld in
-        float yPos = Random.Range(3f, 5f);   // Stel de hoogte in waar de vijand start
 
-        targetPosition = new Vector3(xPos, yPos, 0f);
-        transform.position = new Vector3(xPos, 6f, 0f); // Startpositie boven het scherm
-    }
-
-    // Beweeg de vijand naar zijn startpositie
-    private void MoveToStartPosition()
-    {
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
-
-        // Als de vijand dichtbij genoeg is, start de bewegingsroutine
-        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        if (transform.position.x <= leftSideOfScreenInWorld + 3)
         {
-            movingToStartPosition = false;
+            target = 1;
+            if (state == 2)
+            {
+                enemyHight += 0.5f;
+            }
         }
-    }
-
-    // Stel de bewegingsrichting in
-    private void SetMovementDirection()
-    {
-        if (movementType == 1)
+        if (transform.position.x >= rightSideOfScreenInWorld - 3)
         {
-            // Beweeg horizontaal van links naar rechts
-            direction = Random.value > 0.5f ? Vector3.right : Vector3.left;
-        }
-        else if (movementType == 2)
-        {
-            // Beweeg horizontaal + naar beneden
-            direction = new Vector3(Random.value > 0.5f ? 1 : -1, -1, 0f).normalized;
-        }
-    }
-
-    // Beweeg in de bepaalde richting
-    private void MoveInDirection()
-    {
-        transform.Translate(direction * moveSpeed * Time.deltaTime);
-
-        // Houd de vijand binnen het scherm
-        if (transform.position.x > 8f || transform.position.x < -8f)
-        {
-            direction.x = -direction.x;  // Draai de horizontale beweging om
+            target = 0;
+            if ( state == 2)
+            {
+                enemyHight += 0.5f;
+            }
         }
 
-/*        // Optioneel: vernietig de vijand als hij de onderkant van het scherm bereikt
-        if (transform.position.y < -6f)
+        if (target == 1)
         {
-            Destroy(gameObject);
-        }*/
+
+
+          transform.position = Vector2.MoveTowards(transform.position, new Vector2(rightSideOfScreenInWorld - 1, enemyHightStart - enemyHight), .1f);
+
+        }
+        if (target == 0)
+        {
+
+         transform.position = Vector2.MoveTowards(transform.position, new Vector2(leftSideOfScreenInWorld + 1, enemyHightStart - enemyHight), .1f);
+        }
+
     }
+
+
+
+
 }

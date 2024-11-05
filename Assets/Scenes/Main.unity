@@ -15324,7 +15324,7 @@ MonoBehaviour:
   backGround1: {fileID: 52329135}
   backGround2: {fileID: 495160382}
   player: {fileID: 948102149}
-  speed: 5
+  speed: 10
 --- !u!1 &177231392
 GameObject:
   m_ObjectHideFlags: 0
@@ -30902,7 +30902,7 @@ Transform:
   m_GameObject: {fileID: 948102147}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -5.43, z: 0}
+  m_LocalPosition: {x: 0, y: -3.81, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -30921,14 +30921,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  moveSpeed: 5
+  moveSpeed: 10
   Bullet: {fileID: 159954003991753635, guid: 3c1970603cce8c44b8160ae41e4e251b, type: 3}
   health: 3
   liveImages:
   - {fileID: 177231394}
   - {fileID: 504407261}
   - {fileID: 460684415}
-  cooldownTime: 1
+  cooldownTime: 0.2
+  currentUserName: nelus
+  currentScore: 58
 --- !u!50 &948102152
 Rigidbody2D:
   serializedVersion: 4
@@ -30955,7 +30957,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!114 &948102153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31193,6 +31195,58 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1268058595
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1268058597}
+  - component: {fileID: 1268058596}
+  m_Layer: 0
+  m_Name: WaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1268058596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268058595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b838bb535d17840a2dade23aa3c207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waves:
+  - groups:
+    - enemies:
+      - {fileID: 8789967458054415684, guid: 535d003086a89f242a3867537abcfe41, type: 3}
+      - {fileID: 3660047970574929959, guid: c6af53c41f5721d46962e68e8c2ee754, type: 3}
+      spawnInterval: 30
+  spawnPoint: {fileID: 0}
+  waveDelay: 5
+--- !u!4 &1268058597
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268058595}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.048867974, y: -0.85950345, z: -0.11387115}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1553570595
 GameObject:
   m_ObjectHideFlags: 0
@@ -31372,6 +31426,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShootingEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4529187475251090009, guid: cfa60f7d5f70fe543af4daf9a60aa56d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7575618693922830957, guid: cfa60f7d5f70fe543af4daf9a60aa56d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.25
@@ -31426,6 +31484,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 1268058597}
   - {fileID: 948102149}
   - {fileID: 123234901}
   - {fileID: 1553570599}
