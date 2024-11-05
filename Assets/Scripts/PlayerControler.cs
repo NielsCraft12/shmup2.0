@@ -21,7 +21,7 @@ public class PlayerControler : MonoBehaviour
     GameObject Bullet;
 
     [SerializeField]
-    int health = 3;
+   public int health = 3;
 
     [SerializeField]
     List<Image> liveImages;
@@ -45,7 +45,7 @@ public class PlayerControler : MonoBehaviour
     private void Awake()
     {
        // SaveGame();
-        LoadGame();
+        //LoadGame();
         playerControls = new PlayerControls();
     }
 
@@ -109,7 +109,7 @@ public class PlayerControler : MonoBehaviour
 
         if (health == 0)
         {
-            ScoreBord.instance.AddScore(currentUserName, currentScore);
+            HighscoreManager.Instance.AddHighscore();
             SceneManager.LoadScene("GameOver");
         }
     }
@@ -161,16 +161,16 @@ public class PlayerControler : MonoBehaviour
     }
 
 
-    public void LoadGame()
+/*    public void LoadGame()
     {
         if (saveData == null)
         {
             saveData = new SaveData();
         }
 
-        saveData = SaveSystem.DeSerializeData();
+      //  saveData = SaveSystem.DeSerializeData();
 
         entries = saveData.entries;
-    }
+    }*/
 
 }

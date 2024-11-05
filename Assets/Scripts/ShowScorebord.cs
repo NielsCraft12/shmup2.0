@@ -14,7 +14,7 @@ public class ShowScorebord : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ScoreBord.instance.LoadGame();
+       // ScoreBord.instance.LoadGame();
         ShowScorebordFun();
     }
 

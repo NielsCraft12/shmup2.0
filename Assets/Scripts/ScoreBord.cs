@@ -22,7 +22,7 @@ public class ScoreBord : Singleton<ScoreBord>
    override public void Awake()
     {
         base.Awake();
-        LoadGame();
+        //LoadGame();
       //  instance = this;
         saveData = new SaveData();
         
@@ -54,7 +54,7 @@ public class ScoreBord : Singleton<ScoreBord>
 
 
 
-        SaveGame();
+       // SaveGame();
     }
     [ContextMenu("Add Test Scores")]
     public void AddTestScores(string name, int score) 
@@ -69,14 +69,14 @@ public class ScoreBord : Singleton<ScoreBord>
         entry.userName = "Test" + i;
         entries.Add(entry);
         }
-        SaveGame();
+       // SaveGame();
     }
 
     [ContextMenu("Reset")]
     public void Reset()
     {
         entries = new List<ScoreEntry>();
-        SaveGame();
+       // SaveGame();
     }
 
     
@@ -86,7 +86,7 @@ public class ScoreBord : Singleton<ScoreBord>
         return entries;
     }
 
-    public void LoadGame()
+/*    public void LoadGame()
     {
 
         saveData = SaveSystem.DeSerializeData();
@@ -103,7 +103,7 @@ public class ScoreBord : Singleton<ScoreBord>
         saveData.entries = entries;
 
         SaveSystem.SerializeData(saveData);
-    }
+    }*/
 
 
 

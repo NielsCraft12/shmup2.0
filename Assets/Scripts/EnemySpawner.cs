@@ -2,33 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-    [System.Serializable]
-    public class EnemyGroup
-    {
-        public GameObject[] enemies;  // List of enemies in this group
-        public float spawnInterval = 30;   // Time between spawning the next group (in seconds)
-    }
-    [System.Serializable]
-    public class Wave
-    {
-        public List<EnemyGroup> groups;  // List of groups in each wave
-    }
 public class EnemySpawner : MonoBehaviour
 {
-
-    float randomY;
-    float randomX;
-    Vector2 goToPos;
-
-    float rightSideOfScreenInWorld;
-
-    public List<Wave> waves;            // List of all waves
+    public GameObject[] enemyPrefabs;   // Array of enemy prefabs to randomly spawn
     public Transform spawnPoint;        // Spawn location (usually above the screen)
     public float waveDelay = 5f;        // Delay between waves (in seconds)
 
-    private int currentWaveIndex = -1;  // Keep track of the current wave
-    private int currentGroupIndex = 0;  // Keep track of the current group in the wave
+    public int baseEnemyCount = 3;      // Starting number of enemies per wave
+    public int maxEnemyCount = 20;      // Maximum enemies allowed per wave
+    public float spawnInterval = 1f;    // Interval between enemy spawns within a wave
+    public int enemyIncrement = 1;      // Fixed number of additional enemies per wave
+
+    private int currentWaveIndex = 0;   // Track the current wave
     private bool isSpawning = false;    // Is currently spawning enemies
+
+    float rightSideOfScreenInWorld;
 
     void Start()
     {
@@ -40,6 +28,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (!isSpawning && AllEnemiesDefeated())
         {
+            // Start the next wave only if no enemies are left and we're not already spawning
             StartCoroutine(StartNextWaveAfterDelay());
         }
     }
@@ -47,6 +36,7 @@ public class EnemySpawner : MonoBehaviour
     // Start the next wave after a delay
     IEnumerator StartNextWaveAfterDelay()
     {
+        isSpawning = true;  // Set to true here to prevent multiple coroutines
         yield return new WaitForSeconds(waveDelay);
         StartNextWave();
     }
@@ -55,44 +45,30 @@ public class EnemySpawner : MonoBehaviour
     void StartNextWave()
     {
         currentWaveIndex++;
-        if (currentWaveIndex >= waves.Count)
-        {
-            Debug.Log("All waves completed!");
-            return;
-        }
 
-        currentGroupIndex = 0;
-        isSpawning = true;
-        StartCoroutine(SpawnGroup());
+        // Calculate enemy count based on the wave number, capped by maxEnemyCount
+        int enemyCount = Mathf.Min(baseEnemyCount + (enemyIncrement * currentWaveIndex), maxEnemyCount);
+        Debug.Log(enemyCount);
+        StartCoroutine(SpawnEnemies(enemyCount));
     }
 
-    // Spawn the current group of enemies
-    IEnumerator SpawnGroup()
+    // Spawn a specified number of random enemies
+    IEnumerator SpawnEnemies(int enemyCount)
     {
-        Wave currentWave = waves[currentWaveIndex];
-        if (currentGroupIndex < currentWave.groups.Count)
+        for (int i = 0; i < enemyCount; i++)
         {
-            EnemyGroup group = currentWave.groups[currentGroupIndex];
-            foreach (GameObject enemy in group.enemies)
-            {
-                randomX = Random.Range(-11f, rightSideOfScreenInWorld);
-                goToPos = new Vector2(randomX, 10.32f);
+            // Randomly select an enemy type from the prefabs array
+            GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
 
-                Instantiate(enemy, goToPos, Quaternion.identity);  // Spawn enemies at the spawn point
-            }
+            float randomX = Random.Range(-11f, rightSideOfScreenInWorld);
+            Vector2 spawnPosition = new Vector2(randomX, 10.32f);
 
-            currentGroupIndex++;  // Move to the next group
+            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);  // Spawn the enemy at the calculated position
 
-            if (currentGroupIndex < currentWave.groups.Count)
-            {
-                yield return new WaitForSeconds(group.spawnInterval);  // Wait for the next group to spawn
-                StartCoroutine(SpawnGroup());  // Spawn the next group
-            }
-            else
-            {
-                isSpawning = false;  // Finished spawning, wait for enemies to be defeated
-            }
+            yield return new WaitForSeconds(spawnInterval);  // Wait before spawning the next enemy
         }
+
+        isSpawning = false;  // Finished spawning this wave, now ready for next wave check
     }
 
     // Check if all enemies are defeated

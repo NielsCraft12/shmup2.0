@@ -15,6 +15,9 @@ public class BasicEnemy : MonoBehaviour
    protected float leftSideOfScreenInWorld;
 
     [SerializeField]
+    List<GameObject> Pickups = new List<GameObject>();
+
+    [SerializeField]
     GameObject explosion;
     protected virtual void Start()
     {
@@ -28,9 +31,16 @@ public class BasicEnemy : MonoBehaviour
     {
         if (lives <= 0)
         {
-            Destroy(gameObject);
           GameObject _particle  = Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(_particle, 0.3f);
+            GameManager.Instance.score += 5;
+            int randomNumber = Random.Range(0, 3);
+            if (randomNumber == 2)
+            {
+                randomNumber = Random.Range(0, Pickups.Count);
+                Instantiate(Pickups[randomNumber], transform.position,Quaternion.identity);
+            }
+            Destroy(gameObject);
 
         }
        
