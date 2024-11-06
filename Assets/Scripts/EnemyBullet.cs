@@ -16,7 +16,7 @@ public class EnemyBullet : MonoBehaviour
 
     Rigidbody2D rb;
 
-   // bool hasReachedPlayer = false; // Track if bullet reached the player position
+
 
     Vector2 moveDirection;
 
@@ -25,7 +25,7 @@ public class EnemyBullet : MonoBehaviour
         player = GameObject.FindWithTag("Player").transform;
         playerpos = new Vector2(player.position.x, player.position.y);
         rb = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, 3); // Destroy bullet after 3 seconds
+        Destroy(gameObject, 3); 
 
         // Calculate the initial direction towards the player
         moveDirection = (playerpos - (Vector2)transform.position).normalized;

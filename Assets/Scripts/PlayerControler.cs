@@ -1,17 +1,19 @@
-
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.U2D;
 using UnityEngine.UI;
-
 
 public class PlayerControler : MonoBehaviour
 {
     [SerializeField]
     Rigidbody2D rb;
+
     [SerializeField]
     float moveSpeed;
+
     [SerializeField]
     PlayerControls playerControls;
     private InputAction move;
@@ -21,7 +23,7 @@ public class PlayerControler : MonoBehaviour
     GameObject Bullet;
 
     [SerializeField]
-   public int health = 3;
+    public int health = 3;
 
     [SerializeField]
     List<Image> liveImages;
@@ -29,27 +31,34 @@ public class PlayerControler : MonoBehaviour
     [SerializeField]
     float cooldownTime;
 
+    float hurttimer;
+    SpriteRenderer sprite;
+
+    [SerializeField]
+    float iframeTime;
+
     float cooldown;
     private SaveData saveData;
     private ScoreEntry scoreEntry;
     private List<ScoreEntry> entries;
 
     [SerializeField]
-   private  string currentUserName;
-    [SerializeField]
-   private int currentScore;
+    private string currentUserName;
 
+    [SerializeField]
+    private int currentScore;
+    bool canTakeDamage = true;
+
+    BoxCollider2D boxCollider;
 
     Vector2 moveDirection = Vector2.zero;
 
     private void Awake()
     {
-       // SaveGame();
-        //LoadGame();
         playerControls = new PlayerControls();
+        sprite = GetComponent<SpriteRenderer>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
-
-
 
     private void OnEnable()
     {
@@ -69,20 +78,15 @@ public class PlayerControler : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerControls.Player.Fire.started += Fire;
-
-       // ScoreBord.instance.AddScore(currentUserName, currentScore);
-       
     }
 
     private void Fire(InputAction.CallbackContext context)
     {
-
         if (cooldown <= 0)
         {
-        Instantiate(Bullet, gameObject.transform.position, Quaternion.identity);
+            Instantiate(Bullet, gameObject.transform.position, Quaternion.identity);
             cooldown = cooldownTime;
         }
-
     }
 
     void Update()
@@ -106,23 +110,37 @@ public class PlayerControler : MonoBehaviour
             }
         }
 
-
-        if (health == 0)
+        if (health <= 0)
         {
             HighscoreManager.Instance.AddHighscore();
             SceneManager.LoadScene("GameOver");
+        }
+
+        if (hurttimer > 0)
+        {
+            hurttimer -= Time.deltaTime;
+
+            if (hurttimer <= 0)
+            {
+                sprite.color = Color.white;
+                hurttimer = 0;
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        float rotationSpeed = 5f; // Adjust the speed as needed
+        float rotationSpeed = 5f;
 
         if (moveDirection == new Vector2(-1, 0))
         {
             float targetAngle = 12f;
             float currentAngle = transform.eulerAngles.z;
-            float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * Time.deltaTime);
+            float newAngle = Mathf.LerpAngle(
+                currentAngle,
+                targetAngle,
+                rotationSpeed * Time.deltaTime
+            );
             transform.rotation = Quaternion.Euler(0, 0, newAngle);
         }
 
@@ -130,7 +148,11 @@ public class PlayerControler : MonoBehaviour
         {
             float targetAngle = -12f;
             float currentAngle = transform.eulerAngles.z;
-            float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * Time.deltaTime);
+            float newAngle = Mathf.LerpAngle(
+                currentAngle,
+                targetAngle,
+                rotationSpeed * Time.deltaTime
+            );
             transform.rotation = Quaternion.Euler(0, 0, newAngle);
         }
 
@@ -138,39 +160,72 @@ public class PlayerControler : MonoBehaviour
         {
             float targetAngle = 0f;
             float currentAngle = transform.eulerAngles.z;
-            float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * Time.deltaTime);
+            float newAngle = Mathf.LerpAngle(
+                currentAngle,
+                targetAngle,
+                rotationSpeed * Time.deltaTime
+            );
             transform.rotation = Quaternion.Euler(0, 0, newAngle);
         }
 
-
         rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
     }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            health--;
+            iframeTime = .3f;
+            sprite.color = new Color(1, 0, 0);
+            if (canTakeDamage)
+            {
+                health--;
+            }
+            hurttimer = 0.1f;
+            StartCoroutine(IframeFlash());
+            Destroy(collision.gameObject);
         }
-        if(collision.gameObject.tag == "EnemyBullet")
+        if (collision.gameObject.tag == "EnemyBullet")
         {
-            health--;
+            sprite.color = new Color(1, 0, 0);
+            if (canTakeDamage)
+            {
+                health--;
+            }
+            iframeTime = .3f;
+            hurttimer = 0.1f;
+            StartCoroutine(IframeFlash());
             Destroy(collision.gameObject);
         }
     }
 
-
-/*    public void LoadGame()
+    private IEnumerator IframeFlash()
     {
-        if (saveData == null)
+        bool flashState = true;
+
+        while (iframeTime > 0)
         {
-            saveData = new SaveData();
+            canTakeDamage = false;
+
+            iframeTime -= Time.deltaTime;
+
+            if (flashState)
+            {
+                sprite.enabled = false;
+                flashState = false;
+                yield return new WaitForSeconds(0.1f);
+            }
+            if (!flashState)
+            {
+                flashState = true;
+                sprite.enabled = true;
+                yield return new WaitForSeconds(0.1f);
+            }
         }
-
-      //  saveData = SaveSystem.DeSerializeData();
-
-        entries = saveData.entries;
-    }*/
-
+        if (iframeTime <= 0)
+        {
+            canTakeDamage = true;
+            flashState = true;
+        }
+    }
 }

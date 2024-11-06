@@ -31070,12 +31070,13 @@ MonoBehaviour:
   rb: {fileID: 0}
   moveSpeed: 10
   Bullet: {fileID: 159954003991753635, guid: 3c1970603cce8c44b8160ae41e4e251b, type: 3}
-  health: 100
+  health: 3
   liveImages:
   - {fileID: 177231394}
   - {fileID: 504407261}
   - {fileID: 460684415}
   cooldownTime: 0.2
+  iframeTime: 0
   currentUserName: nelus
   currentScore: 58
 --- !u!50 &948102152
@@ -31376,7 +31377,7 @@ MonoBehaviour:
   - {fileID: 3660047970574929959, guid: c6af53c41f5721d46962e68e8c2ee754, type: 3}
   - {fileID: 4529187475251090009, guid: cfa60f7d5f70fe543af4daf9a60aa56d, type: 3}
   spawnPoint: {fileID: 0}
-  waveDelay: 5
+  waveDelay: 2.5
   baseEnemyCount: 3
   maxEnemyCount: 20
   spawnInterval: 1
@@ -31629,63 +31630,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa60f7d5f70fe543af4daf9a60aa56d, type: 3}
---- !u!1001 &7478461981772752598
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5444032040956554109, guid: b551121b9c3aba242b40dce6d30c7407, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.994054
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444032040956554109, guid: b551121b9c3aba242b40dce6d30c7407, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444032040956554109, guid: b551121b9c3aba242b40dce6d30c7407, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444032040956554109, guid: b551121b9c3aba242b40dce6d30c7407, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444032040956554109, guid: b551121b9c3aba242b40dce6d30c7407, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444032040956554109, guid: b551121b9c3aba242b40dce6d30c7407, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444032040956554109, guid: b551121b9c3aba242b40dce6d30c7407, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444032040956554109, guid: b551121b9c3aba242b40dce6d30c7407, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444032040956554109, guid: b551121b9c3aba242b40dce6d30c7407, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444032040956554109, guid: b551121b9c3aba242b40dce6d30c7407, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7776110386520574508, guid: b551121b9c3aba242b40dce6d30c7407, type: 3}
-      propertyPath: m_Name
-      value: HealthPickUp
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b551121b9c3aba242b40dce6d30c7407, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -31699,4 +31643,3 @@ SceneRoots:
   - {fileID: 1213648227}
   - {fileID: 153537815508531898}
   - {fileID: 7251710563685483573}
-  - {fileID: 7478461981772752598}

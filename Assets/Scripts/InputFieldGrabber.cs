@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InputFieldGrabber : MonoBehaviour
 {
@@ -11,7 +9,7 @@ public class InputFieldGrabber : MonoBehaviour
     [SerializeField] 
     private GameObject reactoinGroup;
     [SerializeField]
-    private TMP_Text reactoinTextBox;
+    private Text reactoinTextBox;
 
 
     public void GrabFromInputField(string input)
